@@ -1,4 +1,56 @@
 document.addEventListener('DOMContentLoaded', function() {
+
+
+    //para audio
+
+    // Obtener el elemento de audio
+    const audio = document.getElementById('audio');
+    
+    // Intentar reproducir el audio (con manejo de errores)
+    function playAudio() {
+        audio.muted = false; // Quitar el mute
+        const playPromise = audio.play();
+        
+        // Manejar la promesa de reproducción
+        if (playPromise !== undefined) {
+            playPromise.then(_ => {
+                // Reproducción exitosa
+            })
+            .catch(error => {
+                // Mostrar botón de reproducción si falla el autoplay
+                console.log('Reproducción automática fallida:', error);
+                showPlayButton();
+            });
+        }
+    }
+    
+    // Mostrar botón de reproducción si es necesario
+    function showPlayButton() {
+        const playButton = document.createElement('button');
+        playButton.textContent = '▶ Reproducir música';
+        playButton.style.position = 'fixed';
+        playButton.style.bottom = '20px';
+        playButton.style.left = '50%';
+        playButton.style.transform = 'translateX(-50%)';
+        playButton.style.zIndex = '1000';
+        playButton.style.padding = '10px 20px';
+        playButton.style.borderRadius = '20px';
+        playButton.style.backgroundColor = '#ff9ec6';
+        playButton.style.color = 'white';
+        playButton.style.border = 'none';
+        playButton.style.cursor = 'pointer';
+        
+        playButton.addEventListener('click', () => {
+            playAudio();
+            playButton.remove();
+        });
+        
+        document.body.appendChild(playButton);
+    }
+    
+    // Intentar reproducir al cargar
+    playAudio();
+
     const pages = Array.from(document.querySelectorAll('.page'));
     const prevButton = document.getElementById('prev-button');
     const nextButton = document.getElementById('next-button');
